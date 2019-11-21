@@ -58,7 +58,7 @@ public class Main {
 	}
 
 	public static void main(String[] args) {
-		// TODO: refactoring, extensibility, clarity of numbering commands, command validator
+		// TODO: refactoring, extensibility, clarity of numbering commands, command validator, junit testing
 		Scanner keyboard = new Scanner(System.in);
 		System.out.println("TIC TAC TOE");
 		System.out.println("P1 Name: ");
