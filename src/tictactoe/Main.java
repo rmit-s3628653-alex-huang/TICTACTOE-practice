@@ -6,7 +6,7 @@ import java.util.Scanner;
 public class Main {
 	static final int ROWS = 3;
 	static final int COLUMNS = 3;
-	
+
 	public static boolean winCheck(String[][] grid) {
 
 		for (int i = 0; i < ROWS; i++) { // check rows
@@ -31,6 +31,17 @@ public class Main {
 		return false;
 	}
 	
+	public static boolean drawCheck(String[][] grid) {
+		for (int i=0; i<ROWS;i++) {
+			for (int j=0; j<COLUMNS;j++) {
+				if (grid[i][j] == null) {
+					return false;
+				}
+			}
+		}		
+		return true;
+	}
+
 	public static void drawBoard(String[][] grid) {
 		for (int i = 0; i < 3; i++) {
 			for (int j = 0; j < 3; j++) {
@@ -47,7 +58,7 @@ public class Main {
 	}
 
 	public static void main(String[] args) {
-		// TODO: refactoring, extensibility, clarity
+		// TODO: refactoring, extensibility, clarity of numbering commands, command validator
 		Scanner keyboard = new Scanner(System.in);
 		System.out.println("TIC TAC TOE");
 		System.out.println("P1 Name: ");
@@ -66,17 +77,27 @@ public class Main {
 			String[] commandsXY = inputCommand.split(",");
 			int x = Integer.parseInt(commandsXY[0]);
 			int y = Integer.parseInt(commandsXY[1]);
-			tacGrid.markGrid(x, y, p.getPlayerNumber());
+			if (tacGrid.getGrid()[x][y] != null) {
+				tacGrid.markGrid(x, y, p.getPlayerNumber());
+			}
+			else {
+				System.out.println("invalid command, coordinate already taken");
+				continue;
+			}
 			drawBoard(tacGrid.getGrid());
-			
 
 			if (winCheck(tacGrid.getGrid()) == true) {
 				p.setWins();
 				tacGrid = new Grid();
 				System.out.print("Player: " + p.getName() + " has won this round, board restarted");
 			}
+			
+			if (drawCheck(tacGrid.getGrid()) == true) {
+				tacGrid = new Grid();
+				System.out.print("No moves available - draw");				
+			}
 
-			if (p == p1) { //player turn switch
+			if (p == p1) { // player turn switch
 				p = p2;
 			} else if (p == p2) {
 				p = p1;
